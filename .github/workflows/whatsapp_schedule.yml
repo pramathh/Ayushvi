@@ -1,0 +1,33 @@
+name: Daily WhatsApp Messages
+
+on:
+  schedule:
+    - cron: '30 0 * * *'  # 🕕 Runs daily at 6:00 AM IST (which is 00:30 UTC)
+  workflow_dispatch:
+
+jobs:
+  send_whatsapp:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run WhatsApp script
+        env:
+          ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }}
+          AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+          FIREBASE_CREDENTIALS_JSON: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
+        run: |
+          echo "$FIREBASE_CREDENTIALS_JSON" > creds.json
+          python whats_fire.py
