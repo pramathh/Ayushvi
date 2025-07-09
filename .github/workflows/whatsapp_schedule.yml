@@ -1,21 +1,13 @@
-name: Daily WhatsApp Messages
+name: WhatsApp Schedule
 
 on:
-  push:
-    branches:
-      - main
-  schedule:
-    - cron: '50 7 * * *'
-  # your scheduled time, adjust if needed
-
   workflow_dispatch:
 
 jobs:
-  send_whatsapp:
+  send_messages:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -28,11 +20,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run WhatsApp script
+      - name: Run WhatsApp message script
         env:
           ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }}
           AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
           FIREBASE_CREDENTIALS_JSON: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
-        run: |
-          echo "$FIREBASE_CREDENTIALS_JSON" > creds.json
-          python whats_fire.py
+        run: python whats_fire.py
