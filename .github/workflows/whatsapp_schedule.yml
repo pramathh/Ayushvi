@@ -20,9 +20,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Set up environment
+        run: |
+          echo "FIREBASE_CRED_PATH=ayushvi-whatsapp-firebase-9.json" >> .env
+
       - name: Run WhatsApp message script
         env:
           ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }}
           AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
-          FIREBASE_CREDENTIALS_JSON: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
         run: python whats_fire.py
