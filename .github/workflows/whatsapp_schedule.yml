@@ -1,11 +1,15 @@
 name: WhatsApp Schedule
 
 on:
+  push:
+    branches:
+      - new   # your default branch
   workflow_dispatch:
 
 jobs:
   send_messages:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -20,9 +24,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Set up environment
+      - name: Set up environment variables
         run: |
-          echo "FIREBASE_CRED_PATH=ayushvi-whatsapp-firebase-9.json" >> .env
+          echo "FIREBASE_CRED_PATH=ayushvi-whatsapp-firebase-9.json" >> $GITHUB_ENV
 
       - name: Run WhatsApp message script
         env:
