@@ -1,8 +1,12 @@
 name: Daily WhatsApp Messages
 
 on:
+  push:
+    branches:
+      - main
   schedule:
-    - cron: '30 0 * * *'  # 🕕 Runs daily at 6:00 AM IST (which is 00:30 UTC)
+    - cron: '0 0 0 * * *'   # your scheduled time, adjust if needed
+
   workflow_dispatch:
 
 jobs:
